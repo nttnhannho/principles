@@ -69,12 +69,16 @@ class Production:
 
 
 if __name__ == "__main__":
-    pizza = Pizza("p1")
+    pizza = Pizza("pizza_1")
+    bread = Bread("bread_1")
+
     p = Production(pizza)
+
     print(p.produce())
     print(p.consume())
 
-    bread = Bread("b1")
-    b = Production(bread)
-    print(b.produce())
-    print(b.consume())
+    print("*" * 20)
+    
+    p.food = bread
+    print(p.produce())
+    print(p.consume())

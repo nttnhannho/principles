@@ -68,18 +68,73 @@ class PostgreDatabase(IDatabaseConnection, IDatabaseUpdate):  # Assume that Post
         return "Modified by using Postgre Database"
 
 
+class DatabaseCreator:
+    def __init__(self, db):
+        self.db = db
+
+    @property
+    def database(self):
+        return self.db
+
+    @database.setter
+    def database(self, db):
+        self.db = db
+
+    def connect(self):
+        try:
+            return self.db.connect()
+        except AttributeError:
+            raise Exception("Unable to connect")
+
+    def close(self):
+        try:
+            return self.db.close()
+        except AttributeError:
+            raise Exception("Unable to disconnect")
+
+    def add(self):
+        try:
+            return self.db.add()
+        except AttributeError:
+            raise Exception("Unable to add")
+
+    def modify(self):
+        try:
+            return self.db.modify()
+        except AttributeError:
+            raise Exception("Unable to modify")
+
+    def delete(self):
+        try:
+            return self.db.delete()
+        except AttributeError:
+            raise Exception("Unable to delete")
+
+    def show_info(self):
+        try:
+            return self.db.show_info()
+        except AttributeError:
+            raise Exception("Unable to show info")
+
+
 if __name__ == "__main__":
-    sql_server = SQLDatabase()
-    print(sql_server.connect())
-    print(sql_server.add())
-    print(sql_server.modify())
-    print(sql_server.delete())
-    print(sql_server.close())
-    print(sql_server.show_info())
+    sqlserver = SQLDatabase()
+    postgresql = PostgreDatabase()
+
+    db = DatabaseCreator(sqlserver)
+    print(db.connect())
+    print(db.add())
+    print(db.modify())
+    print(db.delete())
+    print(db.close())
+    print(db.show_info())
+
     print("*" * 20)
-    postgre = PostgreDatabase()
-    print(postgre.connect())
-    print(postgre.add())
-    print(postgre.modify())
-    print(postgre.delete())
-    print(postgre.close())
+    
+    db.database = postgresql
+    print(db.connect())
+    print(db.add())
+    print(db.modify())
+    print(db.delete())
+    print(db.close())
+    print(db.show_info())
